@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shared Files</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#eef2ff,#f8fafc);
+            padding:28px;
+        }
+
+        h1{
+            margin-bottom:24px;
+            color:#0f172a;
+            font-size:30px;
+            font-weight:700;
+        }
+
+        .file-card{
+
+            background:white;
+
+            padding:18px 22px;
+
+            border-radius:16px;
+
+            margin-bottom:16px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            box-shadow:0 6px 16px rgba(37,99,235,0.06);
+
+            transition:0.25s;
+        }
+
+        .file-card:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 20px rgba(37,99,235,0.10);
+        }
+
+        .file-name{
+            font-size:18px;
+            font-weight:600;
+            color:#0f172a;
+            margin-bottom:6px;
+        }
+
+        .owner{
+            color:#64748b;
+            font-size:13px;
+        }
+
+        .actions{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .action-btn{
+
+            border:none;
+
+            padding:8px 14px;
+
+            border-radius:10px;
+
+            color:white;
+
+            font-size:12px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+            transition:0.25s;
+
+            box-shadow:0 3px 8px rgba(0,0,0,0.08);
+        }
+
+        .action-btn:hover{
+            transform:translateY(-1px);
+        }
+
+        .view-btn{
+            background:linear-gradient(135deg,#3b82f6,#2563eb);
+        }
+
+        .download-btn{
+            background:linear-gradient(135deg,#2563eb,#3b82f6);
+        }
+
+        .share-btn{
+            background:linear-gradient(135deg,#22c55e,#16a34a);
+        }
+
+        /* Delete Button */
+
+        .delete-btn{
+            background:linear-gradient(135deg,#ef4444,#dc2626);
+        }
+
+        /* Responsive */
+
+        @media(max-width:900px){
+
+            .file-card{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:14px;
+            }
+
+            .actions{
+                flex-wrap:wrap;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>👥 Shared With Me</h1>
+
+{% for item in shared_files %}
+
+<div class="file-card">
+
+    <div>
+
+        <div class="file-name">
+            {{ item.file.filename }}
+        </div>
+
+        <div class="owner">
+            Shared by: {{ item.file.uploaded_by.username }}
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <a href="{{ item.file.file.url }}" target="_blank">
+
+            <button class="action-btn view-btn">
+                👁 View
+            </button>
+
+        </a>
+
+        <a href="{{ item.file.file.url }}" download>
+
+            <button class="action-btn download-btn">
+                ⬇ Download
+            </button>
+
+        </a>
+
+        {% if item.permission == 'edit' %}
+
+        <a href="/share/{{ item.file.id }}/">
+
+            <button class="action-btn share-btn">
+                👥 Share
+            </button>
+
+        </a>
+
+        <a href="/delete/{{ item.file.id }}/">
+
+            <button class="action-btn delete-btn">
+                🗑 Delete
+            </button>
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>

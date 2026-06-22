@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Settings</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#eef2ff;
+    padding:50px;
+    transition:0.4s;
+}
+
+h1{
+    font-size:42px;
+    color:#0f172a;
+    margin-bottom:30px;
+    font-weight:700;
+    transition:0.4s;
+}
+
+
+.settings-card{
+
+    width:500px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:24px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+
+    transition:0.4s;
+}
+
+.setting{
+
+    background:#f8fafc;
+
+    padding:18px 20px;
+
+    border-radius:16px;
+
+    margin-bottom:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    transition:0.3s;
+}
+
+.setting:hover{
+    background:#dbeafe;
+    transform:translateX(4px);
+}
+
+.left{
+    font-size:18px;
+    color:#1e293b;
+    font-weight:500;
+    transition:0.4s;
+}
+
+button{
+
+    border:none;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    padding:10px 20px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    transition:0.3s;
+
+    box-shadow:0 4px 12px rgba(37,99,235,0.20);
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+
+.dark-body{
+    background:#0f172a;
+}
+
+.dark-title{
+    color:white;
+}
+
+.dark-card{
+    background:#1e293b;
+}
+
+.dark-setting{
+    background:#334155;
+}
+
+.dark-left{
+    color:white;
+}
+
+</style>
+
+<script>
+
+let dark = false;
+
+function darkMode(){
+
+    dark = !dark;
+
+    document.body.classList.toggle("dark-body");
+
+    document.getElementById("title").classList.toggle("dark-title");
+
+    document.getElementById("card").classList.toggle("dark-card");
+
+    const settings = document.querySelectorAll(".setting");
+    const texts = document.querySelectorAll(".left");
+
+    settings.forEach(setting => {
+        setting.classList.toggle("dark-setting");
+    });
+
+    texts.forEach(text => {
+        text.classList.toggle("dark-left");
+    });
+
+    const btn = document.getElementById("darkBtn");
+
+    if(dark){
+        btn.innerText = "Disable";
+    }else{
+        btn.innerText = "Enable";
+    }
+}
+
+function notifyMsg(){
+    alert("Notifications Settings Opened 🔔");
+}
+
+function privacyMsg(){
+    alert("Privacy Settings Opened 🔒");
+}
+
+function accountMsg(){
+    alert("Account Settings Opened 👤");
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h1 id="title">
+    ⚙ Settings
+</h1>
+
+<div class="settings-card" id="card">
+
+    <div class="setting">
+
+        <div class="left">
+            🌙 Dark Mode
+        </div>
+
+        <button id="darkBtn" onclick="darkMode()">
+            Enable
+        </button>
+
+    </div>
+
+    <div class="setting">
+
+        <div class="left">
+            🔔 Notifications
+        </div>
+
+        <button onclick="notifyMsg()">
+            Open
+        </button>
+
+    </div>
+
+    <div class="setting">
+
+        <div class="left">
+            🔒 Privacy
+        </div>
+
+        <button onclick="privacyMsg()">
+            Open
+        </button>
+
+    </div>
+
+    <div class="setting">
+
+        <div class="left">
+            👤 Account
+        </div>
+
+        <button onclick="accountMsg()">
+            Open
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

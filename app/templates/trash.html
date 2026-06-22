@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trash</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI';
+        }
+
+        body{
+            display:flex;
+            background:#eef2ff;
+        }
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            background:white;
+            padding:30px 25px;
+            border-right:1px solid #e5e7eb;
+            position:fixed;
+        }
+
+        .logo{
+            font-size:28px;
+            font-weight:700;
+            margin-bottom:40px;
+        }
+
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+
+        .menu a{
+            text-decoration:none;
+            color:#334155;
+            font-size:15px;
+            padding:12px 16px;
+            border-radius:12px;
+        }
+
+        .menu a:hover{
+            background:#eef2ff;
+            color:#2563eb;
+        }
+
+        .main{
+            margin-left:260px;
+            width:100%;
+            padding:35px;
+        }
+
+        .title{
+            font-size:34px;
+            font-weight:700;
+            margin-bottom:30px;
+            color:#0f172a;
+        }
+
+        .file-card{
+            background:white;
+            padding:20px 24px;
+            border-radius:20px;
+            margin-bottom:20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .file-name{
+            font-size:17px;
+            font-weight:600;
+        }
+
+        .actions{
+            display:flex;
+            gap:10px;
+        }
+
+        .btn{
+            border:none;
+            padding:10px 18px;
+            border-radius:12px;
+            color:white;
+            font-size:14px;
+            cursor:pointer;
+        }
+
+        .restore{
+            background:#4ade80;
+        }
+
+        .delete{
+            background:#f87171;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            📁 Drive
+        </div>
+
+        <div class="menu">
+
+            <a href="/upload/">➕ New Upload</a>
+
+            <a href="/">📂 My Files</a>
+
+            <a href="/shared/">👥 Shared Files</a>
+
+            <a href="/starred/">⭐ Starred</a>
+
+            <a href="/trash/">🗑️ Trash</a>
+
+            <a href="/settings/">⚙️ Settings</a>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="title">
+            🗑️ Trash Files
+        </div>
+
+        {% for file in files %}
+
+        <div class="file-card">
+
+            <div class="file-name">
+                {{ file.filename }}
+            </div>
+
+            <div class="actions">
+
+                <a href="/restore/{{ file.id }}/">
+
+                    <button class="btn restore">
+                        Restore
+                    </button>
+
+                </a>
+
+                <a href="/permanent-delete/{{ file.id }}/">
+
+                    <button class="btn delete">
+                        Delete Forever
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>No files in trash.</p>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

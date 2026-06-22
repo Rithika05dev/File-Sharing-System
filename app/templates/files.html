@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drive</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI';
+        }
+
+        body{
+            display:flex;
+            background:#eef2ff;
+        }
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            background:white;
+            padding:30px 25px;
+            border-right:1px solid #e5e7eb;
+            position:fixed;
+            left:0;
+            top:0;
+        }
+
+        .logo{
+            font-size:28px;
+            font-weight:700;
+            margin-bottom:40px;
+            color:#0f172a;
+        }
+
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+        }
+
+        .menu a{
+            text-decoration:none;
+            color:#334155;
+            font-size:15px;
+            font-weight:500;
+            padding:12px 16px;
+            border-radius:12px;
+            transition:0.2s;
+        }
+
+        .menu a:hover{
+            background:#eef2ff;
+            color:#2563eb;
+        }
+
+        .storage{
+            margin-top:40px;
+            background:#f8fafc;
+            padding:18px;
+            border-radius:18px;
+            border:1px solid #dbeafe;
+        }
+
+        .storage h4{
+            font-size:15px;
+            margin-bottom:12px;
+            color:#0f172a;
+        }
+
+        .bar{
+            width:100%;
+            height:10px;
+            background:#dbeafe;
+            border-radius:20px;
+            overflow:hidden;
+        }
+
+        .fill{
+            width:45%;
+            height:100%;
+            background:#3b82f6;
+            border-radius:20px;
+        }
+
+        .storage p{
+            margin-top:10px;
+            font-size:13px;
+            color:#64748b;
+        }
+
+        .main{
+            margin-left:260px;
+            width:100%;
+            padding:35px;
+        }
+
+        .search{
+            width:100%;
+            max-width:700px;
+            padding:15px 22px;
+            border:none;
+            border-radius:18px;
+            font-size:15px;
+            margin-bottom:35px;
+            outline:none;
+            background:white;
+            box-shadow:0 2px 8px rgba(0,0,0,0.05);
+        }
+
+
+        .title{
+            font-size:38px;
+            font-weight:700;
+            margin-bottom:30px;
+            color:#0f172a;
+        }
+
+    
+
+        .file-card{
+            background:white;
+            border-radius:22px;
+            padding:24px 28px;
+            margin-bottom:22px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 4px 14px rgba(0,0,0,0.05);
+        }
+
+        .file-name{
+            font-size:18px;
+            font-weight:600;
+            color:#0f172a;
+        }
+
+        .actions{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+
+        .btn{
+            border:none;
+            padding:10px 18px;
+            border-radius:12px;
+            cursor:pointer;
+            font-size:14px;
+            font-weight:600;
+            transition:0.2s;
+            color:white;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .btn:hover{
+            transform:translateY(-2px);
+            opacity:0.92;
+        }
+
+        .star{
+            background:#facc15;
+            color:#713f12;
+        }
+
+        .download{
+            background:#60a5fa;
+        }
+
+        .share{
+            background:#4ade80;
+        }
+
+        .delete{
+            background:#f87171;
+        }
+        
+
+        #noResult{
+            display:none;
+            color:#64748b;
+            font-size:16px;
+            margin-top:20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            📁 Drive
+        </div>
+
+        <div class="menu">
+
+            <a href="/upload/">➕ New Upload</a>
+
+            <a href="/">📂 My Files</a>
+
+            <a href="/shared/">👥 Shared Files</a>
+
+            <a href="/starred/">⭐ Starred</a>
+
+            <a href="/trash/">🗑️ Trash</a>
+
+            <a href="/settings/">⚙️ Settings</a>
+
+        </div>
+
+        <div class="storage">
+
+            <h4>Storage Used</h4>
+
+            <div class="bar">
+                <div class="fill"></div>
+            </div>
+
+            <p>45% of storage used</p>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+
+        <input type="text"
+               id="searchInput"
+               class="search"
+               placeholder="🔍 Search in Drive..."
+               onkeyup="searchFiles()">
+
+        <div class="title">
+            My Files
+        </div>
+
+        <p id="noResult">
+            No files found
+        </p>
+
+        {% for file in files %}
+
+        <div class="file-card search-item">
+
+            <div class="file-name">
+                {{ file.filename }} (V{{ file.version }})
+            </div>
+
+            <div class="actions">
+
+                <a href="{% url 'toggle_star' file.id %}">
+
+                    <button class="btn star">
+
+                        {% if file.starred %}
+                            ⭐ Starred
+                        {% else %}
+                            ⭐ Star
+                        {% endif %}
+
+                    </button>
+
+                </a>
+
+                <a href="{{ file.file.url }}" download>
+
+                    <button class="btn download">
+                        Download
+                    </button>
+
+                </a>
+
+                <a href="/share/{{ file.id }}/">
+
+                    <button class="btn share">
+                        Share
+                    </button>
+
+                </a>
+
+                <a href="/delete/{{ file.id }}/">
+
+                    <button class="btn delete">
+                        Delete
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <script>
+
+        function searchFiles(){
+
+            let input =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            let cards =
+                document.getElementsByClassName("search-item");
+
+            let found = false;
+
+            for(let i=0;i<cards.length;i++){
+
+                let text =
+                    cards[i].innerText.toLowerCase();
+
+                if(text.includes(input)){
+
+                    cards[i].style.display = "flex";
+
+                    found = true;
+
+                }else{
+
+                    cards[i].style.display = "none";
+                }
+            }
+
+            if(found){
+
+                document.getElementById("noResult")
+                .style.display = "none";
+
+            }else{
+
+                document.getElementById("noResult")
+                .style.display = "block";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
